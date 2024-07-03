@@ -8,6 +8,8 @@ import { OrderConfirmComponent } from './order-confirm/order-confirm.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { DetailProductComponent } from './detail-product/detail-product.component';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -22,7 +24,9 @@ import { DetailProductComponent } from './detail-product/detail-product.componen
     DetailProductComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [
@@ -30,8 +34,8 @@ import { DetailProductComponent } from './detail-product/detail-product.componen
     // OrderComponent
     // OrderConfirmComponent
     // LoginComponent,
-    // RegisterComponent,
-    DetailProductComponent
+    RegisterComponent,
+    // DetailProductComponent
 
   ]
 })
