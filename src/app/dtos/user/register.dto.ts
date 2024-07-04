@@ -6,7 +6,7 @@ import {
 } from 'class-validator';
 
 export class RegisterDTO{
-   @IsString()
+    @IsString()
     fullname: string;
 
     @IsPhoneNumber()
