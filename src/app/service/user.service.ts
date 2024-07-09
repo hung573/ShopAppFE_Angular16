@@ -3,14 +3,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { RegisterDTO } from '../dtos/user/register.dto';
-import { enviroment } from '../enviroments/enviroment';
+import { environment } from '../enviroments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrlRegister = `${enviroment.apiBaseUrl}/users/resigter`;
-  private apiUrlLogin = `${enviroment.apiBaseUrl}/users/login`;
+  private apiUrlRegister = `${environment.apiBaseUrl}/users/resigter`;
+  private apiUrlLogin = `${environment.apiBaseUrl}/users/login`;
   private apiCongig = {
     headers: this.createHeaders()
   };

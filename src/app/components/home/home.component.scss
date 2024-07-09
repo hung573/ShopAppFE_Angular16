@@ -64,6 +64,8 @@
 }
 
 .product-description {
+  width: 100%;
+  height: 70px;
   color: rgb(173, 178, 203);
 }
 
@@ -89,4 +91,17 @@
 .space-x {
   margin: 0 5px;
   /*margin-top, margin-right, margin-bottom, margin-left*/
+}
+
+.page-number {
+  cursor: pointer;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  margin: 0 2px;
+  border-radius: 3px;
+}
+
+.page-number.active {
+  background-color: #007bff;
+  color: #fff;
 }

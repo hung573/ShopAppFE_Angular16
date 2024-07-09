@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { enviroment } from "../enviroments/enviroment";
+import { environment } from "../enviroments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 
@@ -8,7 +8,7 @@ import { Observable } from "rxjs";
 })
 
 export class RoleService{
-  private apiGetRoles  = `${enviroment.apiBaseUrl}/roles/login`;
+  private apiGetRoles  = `${environment.apiBaseUrl}/roles/login`;
 
   constructor(private http: HttpClient) { }
   getRoles():Observable<any> {
