@@ -25,7 +25,6 @@
                 <span class="product-name">{{ item.product.name }}</span>
               </div>
             </td>
-            <!-- <td>{{ item.quantity }}</td> -->
             <td>
               <div class="product-quantity">
                 <div class="border-wrapper">
@@ -35,12 +34,8 @@
                 </div>
               </div>
             </td>
-            <!-- <td>{{ item.product.price | currency:'VND':'symbol':'1.0-0' }}</td> -->
             <td>{{ item.product.price | number}} VND</td>
-            <!-- <td>{{ (item.product.price * item.quantity) |
-              currency:'VND':'symbol':'1.0-0' }}</td> -->
-            <td>{{ (item.product.price * item.quantity) |
-              number}} VND</td>
+            <td>{{ (item.product.price * item.quantity) | number}} VND</td>
           </tr>
         </ng-container>
       </tbody>

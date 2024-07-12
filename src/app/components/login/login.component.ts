@@ -17,8 +17,8 @@ import { RoleService } from 'src/app/service/role.service';
 export class LoginComponent {
   @ViewChild('loginrForm') loginrForm!: NgForm;
 
-  phoneNumber: string = '01234567';
-  password: string = '123123';
+  phoneNumber: string = '';
+  password: string = '';
 
   roles: Role[] = []; // Mảng roles
   rememberMe: boolean = true;
@@ -29,29 +29,29 @@ export class LoginComponent {
     private userService: UserService,
     private tokenService: TokenService,
     private roleService: RoleService) {
-
+      
   }
 
-  onPhoneNumberChange(){
+  onPhoneNumberChange() {
     console.log(`phone Type: ${this.phoneNumber}`);
   }
 
-  ngOnInit() {
-    // Gọi API lấy danh sách roles và lưu vào biến roles
-    debugger
-    this.roleService.getRoles().subscribe({
-      next: (roles: Role[]) => { // Sử dụng kiểu Role[]
-        debugger
-        this.roles = roles;
-        this.selectedRole = roles.length > 0 ? roles[1] : undefined;
-      },
-      error: (error: any) => {
-        debugger
-          alert(error);
-        console.error('Error getting roles:', error);
-      }
-    });
-  }
+  // ngOnInit() {
+  //   // Gọi API lấy danh sách roles và lưu vào biến roles
+  //   debugger
+  //   this.roleService.getRoles().subscribe({
+  //     next: (roles: Role[]) => { // Sử dụng kiểu Role[]
+  //       debugger
+  //       this.roles = roles;
+  //       this.selectedRole = roles.length > 0 ? roles[1] : undefined;
+  //     },
+  //     error: (error: any) => {
+  //       debugger
+  //       alert(error);
+  //       console.error('Error getting roles:', error);
+  //     }
+  //   });
+  // }
 
 
   login() {
@@ -59,13 +59,13 @@ export class LoginComponent {
     const loginDTO: LoginDTO = {
       phone_number: this.phoneNumber,
       password: this.password,
-      role_id: this.selectedRole?.id ?? 0
+      // role_id: this.selectedRole?.id ?? 0
 
     };
     debugger
     this.userService.login(loginDTO).subscribe({
-        next: (response: LoginResponse) => {
-          debugger
+      next: (response: LoginResponse) => {
+        debugger
 
         const { token } = response;
         if (this.rememberMe) {
@@ -73,14 +73,14 @@ export class LoginComponent {
           alert(response.message);
 
         }
-          // this.router.navigate(['/home']);
-        },
-        complete: () => {
-          debugger
-        },
-        error: (error: any) => {
-          alert(error.error.message);
-        }
+        // this.router.navigate(['/home']);
+      },
+      complete: () => {
+        debugger
+      },
+      error: (error: any) => {
+        alert(error.error.message);
+      }
     })
   }
 
