@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { OrderDTO } from 'src/app/dtos/order/order.dto';
 import { environment } from 'src/app/enviroments/environment';
+import { Order } from 'src/app/models/order';
 import { Product } from 'src/app/models/product';
 import { CartService } from 'src/app/service/cart.service';
 import { OrderService } from 'src/app/service/order.service';
 import { ProductService } from 'src/app/service/product.service';
+import { TokenService } from 'src/app/service/token.service';
 
 @Component({
   selector: 'app-order',
@@ -36,19 +39,22 @@ export class OrderComponent implements OnInit {
     private cartService: CartService,
     private productService: ProductService,
     private orderService: OrderService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router,
+    private tokenService: TokenService,
+
 
   ) {
 
     // Tạo FormGroup và các FormControl tương ứng
     this.orderForm = this.fb.group({
-      fullname: ['Coc Coc', Validators.required], // fullname là FormControl bắt buộc
+      fullname: ['HungTran', Validators.required], // fullname là FormControl bắt buộc
       email: ['hung95391@gmail.com', [Validators.email]], // Sử dụng Validators.email cho kiểm tra định dạng email
-      phone_number: ['09123456', [Validators.required, Validators.minLength(6)]], // phone_number bắt buộc và ít nhất 6 ký tự
-      address: ['Quan 10, tp Ho Chi Minh', [Validators.required, Validators.minLength(5)]], // address bắt buộc và ít nhất 5 ký tự
-      note: ['Dễ vỡ'],
+      phone_number: ['0936792404', [Validators.required, Validators.minLength(6)]], // phone_number bắt buộc và ít nhất 6 ký tự
+      address: ['Tổ 4, ấp tân điền, xã Lý Nhơn, huyện Cần Giờ, tp Hồ Chí Minh', [Validators.required, Validators.minLength(5)]], // address bắt buộc và ít nhất 5 ký tự
+      note: ['Được phép kiểm hàng'],
       shipping_method: ['express'],
-      shipping_address: ['Quan 10, tp Ho Chi Minh', [Validators.required, Validators.minLength(5)]], // address bắt buộc và ít nhất 5 ký tự
+      shipping_address: ['Tổ 4, ấp Tân Điền, xã Lý Nhơn, huyện Cần Giờ, tp Hồ Chí Minh', [Validators.required, Validators.minLength(5)]], // address bắt buộc và ít nhất 5 ký tự
       payment_method: ['cod']
     });
 
@@ -57,8 +63,15 @@ export class OrderComponent implements OnInit {
   ngOnInit(): void {
     // Lấy danh sách sản phẩm từ giỏ hàng
     debugger
+    this.orderData.user_id = this.tokenService.getUserId();
+
     const cart = this.cartService.getCart();
     const productIds = Array.from(cart.keys()); // Chuyển danh sách ID từ Map giỏ hàng
+
+    debugger
+    if (productIds.length === 0) {
+      return;
+    }
 
     // Gọi service để lấy thông tin sản phẩm dựa trên danh sách ID
     debugger
@@ -112,9 +125,11 @@ export class OrderComponent implements OnInit {
       }));
       // Dữ liệu hợp lệ, bạn có thể gửi đơn hàng đi
       this.orderService.placeOrder(this.orderData).subscribe({
-        next: (response) => {
+        next: (response: any) => {
           debugger;
-          console.log('Đặt hàng thành công');
+          alert('Đặt hàng thành công');
+          this.cartService.clearCart();
+          this.router.navigate(['/orders/', response.items.id]);
         },
         complete: () => {
           debugger;
@@ -122,12 +137,13 @@ export class OrderComponent implements OnInit {
         },
         error: (error: any) => {
           debugger;
-          console.error('Lỗi khi đặt hàng:', error);
+          alert(`Lỗi khi đặt hàng: ${error}`);
         },
       });
     } else {
       // Hiển thị thông báo lỗi hoặc xử lý khác
-      alert('Dữ liệu không hợp lệ. Vui lòng kiểm tra lại.');
+      alert(`Lỗi khi đặt hàng !!!`);
+      console.log('Dữ liệu không hợp lệ. Vui lòng kiểm tra lại.');
     }
   }
 

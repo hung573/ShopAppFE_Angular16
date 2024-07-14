@@ -6,6 +6,7 @@ import { OrderResponse } from 'src/app/reponses/order/order.response';
 import { CartService } from 'src/app/service/cart.service';
 import { ProductService } from 'src/app/service/product.service';
 import { OrderDetail } from 'src/app/models/order.detail';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-order-detail',
@@ -15,7 +16,7 @@ import { OrderDetail } from 'src/app/models/order.detail';
 export class OrderDetailComponent implements OnInit {
 
   orderResponse: OrderResponse = {
-    id: 9, // Hoặc bất kỳ giá trị số nào bạn muốn
+    id: 0, // Hoặc bất kỳ giá trị số nào bạn muốn
     user_id: 0,
     fullname: '',
     phone_number: '',
@@ -34,11 +35,14 @@ export class OrderDetailComponent implements OnInit {
   };
 
   constructor(
-    private orderService: OrderService
+    private orderService: OrderService,
+    private activatedRoute: ActivatedRoute,
+    private cartService: CartService,
   ) { }
   ngOnInit(): void {
     debugger
-    const orderId = 10; // Thay bằng ID của đơn hàng bạn muốn lấy.
+    const idParam = this.activatedRoute.snapshot.paramMap.get('id');
+    const orderId = Number(idParam); // Thay bằng ID của đơn hàng bạn muốn lấy.
     this.orderService.getOrderById(orderId).subscribe({
       next: (response: any) => {
         debugger;
@@ -69,9 +73,9 @@ export class OrderDetailComponent implements OnInit {
         );
 
         this.orderResponse.shipping_method = response.items.shipping_method;
-
         this.orderResponse.status = response.items.status;
         this.orderResponse.total_money = response.items.total_money;
+
       },
       complete: () => {
         debugger;

@@ -8,6 +8,8 @@ import { LoginResponse } from 'src/app/reponses/user/login.response';
 import { count } from 'rxjs';
 import { Role } from 'src/app/models/role';
 import { RoleService } from 'src/app/service/role.service';
+import { ObjectResponse } from 'src/app/reponses/user/object.response';
+import { UserResponse } from 'src/app/reponses/user/user.response';
 
 @Component({
   selector: 'app-login',
@@ -23,13 +25,14 @@ export class LoginComponent {
   roles: Role[] = []; // Mảng roles
   rememberMe: boolean = true;
   selectedRole: Role | undefined; // Biến để lưu giá trị được chọn từ dropdown
+  userResponse?: UserResponse;
 
   constructor(
     private router: Router,
     private userService: UserService,
     private tokenService: TokenService,
     private roleService: RoleService) {
-      
+
   }
 
   onPhoneNumberChange() {
@@ -66,14 +69,35 @@ export class LoginComponent {
     this.userService.login(loginDTO).subscribe({
       next: (response: LoginResponse) => {
         debugger
-
         const { token } = response;
         if (this.rememberMe) {
           this.tokenService.setToken(token);
-          alert(response.message);
-
+          this.userService.getUserDetails(token).subscribe({
+            next: (response: any) => {
+              debugger;
+              this.userResponse = {
+                id: response.items.id,
+                fullname: response.items.fullname,
+                phone_number: response.items.phone_number,
+                address: response.items.address,
+                active: response.items.active,
+                dateOfBirth: new Date(response.items.dateOfBirth),
+                role: response.items.role,
+                facebook_account_id: response.items.facebook_account_id,
+                google_account_id: response.items.google_account_id
+              };
+              this.userService.saveUserToLocalStorage(this.userResponse);
+              this.router.navigate(['/']);
+            },
+            complete: () => {
+              debugger;
+            },
+            error: (error: any) => {
+              debugger;
+              alert(error.message);
+            }
+          });
         }
-        // this.router.navigate(['/home']);
       },
       complete: () => {
         debugger

@@ -16,7 +16,7 @@ export class OrderService {
   placeOrder(orderData: OrderDTO): Observable<any> {
     const url = `${this.apiUrl}/add`;
     // Gửi yêu cầu đặt hàng
-    return this.http.post(this.apiUrl, orderData);
+    return this.http.post(url, orderData);
   }
   getOrderById(orderId: number): Observable<any> {
     const url = `${this.apiUrl}/order/${orderId}`;

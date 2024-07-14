@@ -11,6 +11,9 @@ import { DetailProductComponent } from './components/detail-product/detail-produ
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './interceptors/token.interceptor';
+import { AppComponent } from './components/app/app.component';
+import { AppRoutingModule } from './app-routing.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -22,13 +25,16 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
     OrderDetailComponent,
     LoginComponent,
     RegisterComponent,
-    DetailProductComponent
+    DetailProductComponent,
+    AppComponent
   ],
   imports: [
     ReactiveFormsModule,
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    AppRoutingModule,
+    NgbModule
   ],
   providers: [
     {
@@ -40,10 +46,11 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
   bootstrap: [
     // HomeComponent,
     // OrderComponent
-    OrderDetailComponent
+    // OrderDetailComponent,
     // LoginComponent,
     // RegisterComponent,
-    // DetailProductComponent
+    // DetailProductComponent,
+    AppComponent
 
   ]
 })

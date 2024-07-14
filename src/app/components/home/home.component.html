@@ -25,13 +25,17 @@
 
   <!--  -->
   <div class="row">
-    <div class="col-lg-4 col-md-6" *ngFor="let product of products">
+    <div class="col-lg-3 col-md-7" *ngFor="let product of products">
       <div class="product-item">
-        <img [src]="product.url" alt="Product Image" class="product-image">
-        <h3 class="product-name">{{ limitText(product.name, 40)}}</h3>
-        <p class="product-description">{{ limitText(product.description,
-          100)}}</p>
-        <p class="product-price">Giá: {{ product.price | number}} VND</p>
+        <img [src]="product.url" alt="Product Image" class="product-image"
+          (click)="onProductClick(product.id)">
+        <h3 class="product-name" (click)="onProductClick(product.id)">{{
+          limitText(product.name, 40)}}</h3>
+        <p class="product-description" (click)="onProductClick(product.id)">{{
+          limitText(product.description,
+          80)}}</p>
+        <p class="product-price" (click)="onProductClick(product.id)">Giá: {{
+          product.price | number}} VND</p>
         <div class="product-rating">
           <i class="fas fa-star"></i>
           <i class="fas fa-star"></i>
@@ -40,9 +44,11 @@
           <i class="fas fa-star-half-alt"></i>
         </div>
         <div class="product-actions">
-          <button class="btn btn-primary">Thêm vào giỏ hàng</button>
+          <button class="btn btn-primary" (click)="addToCart(product.id)">Thêm
+            vào giỏ
+            hàng</button>
           <span class="space-x"></span>
-          <button class="btn btn-success">Mua ngay</button>
+          <button class="btn btn-success" (click)="buyNow()">Mua ngay</button>
         </div>
       </div>
     </div>

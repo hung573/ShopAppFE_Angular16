@@ -1,3 +1,5 @@
+@import '../../styles/shared-style.scss';
+
 .intro_section {
   text-align: center;
   color: white;
@@ -11,16 +13,16 @@
   margin-bottom: 20px;
 }
 
+.product-category {
+  width: 200px;
+}
+
 .search-input {
   width: 300px;
-  background-color: rgb(19, 23, 42);
+  background-color: $shopapp-background-color;
   margin-right: 10px;
   border-color: rgba(255, 255, 255, 0.5);
   color: white;
-}
-
-.product-category {
-  width: 200px;
 }
 
 .form-control {
@@ -46,7 +48,7 @@
 }
 
 .product-item {
-  background-color: rgb(19, 23, 42);
+  background-color: $shopapp-background-color;
   border: 1px solid rgb(35, 39, 61);
   border-radius: 20px;
   padding: 20px;
@@ -57,23 +59,27 @@
   width: 100%;
   height: auto;
   margin-bottom: 10px;
+  border-radius: 12px;
 }
 
 .product-name {
+  width: 100%;
+  height: 110px;
   color: white;
 }
 
 .product-description {
   width: 100%;
-  height: 70px;
+  height: 60px;
   color: rgb(173, 178, 203);
 }
 
 .product-warranty {
-  color: rgb(242, 126, 212);
+  color: $shopapp-tint-color;
 }
 
 .product-price {
+  padding-top: 10px;
   color: white;
 }
 
@@ -102,6 +108,16 @@
 }
 
 .page-number.active {
-  background-color: #007bff;
+  background-color: $shopapp-color !important;
   color: #fff;
+  border-color: $shopapp-color !important;
+}
+
+.btn-primary {
+  background-color: $shopapp-color;
+  border-color: $shopapp-color;
+}
+
+.btn.btn-primary {
+  margin-left: 10px;
 }
