@@ -1,0 +1,125 @@
+import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ValidationError } from 'class-validator';
+import { UserUpdateDTO } from 'src/app/dtos/user/user.update.dto';
+import { UserResponse } from 'src/app/reponses/user/user.response';
+import { TokenService } from 'src/app/service/token.service';
+import { UserService } from 'src/app/service/user.service';
+
+@Component({
+  selector: 'app-user-profile',
+  templateUrl: './user-profile.component.html',
+  styleUrls: ['./user-profile.component.scss']
+})
+export class UserProfileComponent implements OnInit {
+  userResponse?: UserResponse;
+  userProfileForm: FormGroup; // Đối tượng FormGroup để quản lý dữ liệu của form
+  token: string;
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private userService: UserService,
+    private tokenService: TokenService) {
+    debugger
+    this.userProfileForm = this.fb.group({
+      fullname: [''],
+      password: ['', [Validators.minLength(6), this.noWhitespaceValidator()]],
+      retype_password: ['', [Validators.minLength(6), this.noWhitespaceValidator()]],
+      address: ['', [Validators.minLength(5)]],
+      date_of_birth: [Date.now()],
+      facebook_account_id: [0],
+      google_account_id: [0]
+    }, {
+      validators: this.passwordMathValidator()
+    });
+    this.token = '';
+  }
+  ngOnInit(): void {
+    debugger;
+    this.token = this.tokenService.getToken() ?? '';
+    this.userService.getUserDetails(this.token).subscribe({
+      next: (response: any) => {
+        debugger;
+        this.userResponse = {
+          ...response.items,
+          dateOfBirth: new Date(response.items.dateOfBirth)
+        };
+        this.userProfileForm.patchValue({
+          fullname: this.userResponse?.fullname ?? '',
+          password: '',
+          retype_password: '',
+          address: this.userResponse?.address ?? '',
+          date_of_birth: this.userResponse?.dateOfBirth.toISOString().substring(0, 10),
+          facebook_account_id: this.userResponse?.facebook_account_id,
+          google_account_id: this.userResponse?.google_account_id
+        });
+        this.userService.saveUserToLocalStorage(this.userResponse);
+      },
+      complete: () => {
+        debugger;
+      },
+      error: (error: any) => {
+        debugger;
+        alert(error)
+      }
+    });
+  }
+
+  passwordMathValidator(): ValidatorFn {
+    return (formGroup: AbstractControl): ValidationErrors | null => {
+      debugger
+      const password = formGroup.get('password')?.value;
+      const retype_password = formGroup.get('retype_password')?.value;
+      if (password !== retype_password) {
+        return { passwordMismatch: true };
+      }
+      return null;
+    };
+  }
+
+  // kiểm tra dấu khoảng trắng
+  noWhitespaceValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const isWhitespace = (control.value || '').includes(' ');
+      return isWhitespace ? { whitespace: true } : null;
+    };
+  }
+
+  save(): void {
+    debugger;
+    if (this.userProfileForm.valid) {
+      debugger
+      const updateUserDTO: UserUpdateDTO = {
+        fullname: this.userProfileForm.get('fullname')?.value,
+        address: this.userProfileForm.get('address')?.value,
+        date_of_birth: this.userProfileForm.get('date_of_birth')?.value,
+        google_account_id: this.userProfileForm.get('google_account_id')?.value,
+        facebook_account_id: this.userProfileForm.get('facebook_account_id')?.value,
+        password: this.userProfileForm.get('password')?.value,
+        retype_password: this.userProfileForm.get('retype_password')?.value
+      };
+
+      this.userService.updateUser(this.token, updateUserDTO).subscribe({
+        next: (response: any) => {
+          this.userService.removeUserToLocalStorage();
+          this.tokenService.removeToken();
+          this.router.navigate(['/login']);
+        },
+        error: (error: any) => {
+          alert('Cập nhật thông tin thất bại');
+          console.log(`Update false ${error.message}`)
+        }
+      });
+
+    }
+    else {
+      if (this.userProfileForm.hasError('passwordMismatch')) {
+        alert('Mật khẩu gõ lại chưa chính xác');
+        return;
+      }
+      return alert('Bạn cần phải nhập đúng định dạng !!!')
+    }
+  }
+
+}

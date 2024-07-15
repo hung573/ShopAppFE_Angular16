@@ -9,6 +9,7 @@ export class AuthGuard {
   constructor(private tokenService: TokenService, private router: Router) { }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    debugger
     const isTokenExpired = this.tokenService.isTokenExpired();
     const isUserIdValid = this.tokenService.getUserId() > 0;
     debugger

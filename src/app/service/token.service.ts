@@ -13,6 +13,7 @@ export class TokenService {
 
   // getter va setter
   getToken(): string | null {
+    debugger
     return localStorage.getItem(this.TOKEN_KEY);
   }
   setToken(token: string): void {
@@ -24,12 +25,20 @@ export class TokenService {
     localStorage.removeItem(this.TOKEN_KEY);
     // localStorage.setItem(this.TOKEN_KEY, JSON.stringify({}));
     // localStorage.setItem(this.USER_KEY, JSON.stringify({}));
-
   }
 
   getUserId(): number {
-    let userObject = this.jwtHelper.decodeToken(this.getToken() ?? '');
-    return 'id' in userObject ? parseInt(userObject['id']) : 0;
+    debugger;
+    const token = this.getToken();
+    if (!token) {
+      return 0; // Token không tồn tại, trả về 0 hoặc giá trị mặc định phù hợp
+    }
+    const userObject = this.jwtHelper.decodeToken(token);
+    if (!userObject || !('id' in userObject)) {
+      return 0; // Không thể giải mã token hoặc không có thuộc tính 'id', trả về 0
+    }
+
+    return parseInt(userObject['id']);
   }
 
   getUserInfoFromTokenn(): any {
@@ -38,7 +47,8 @@ export class TokenService {
   }
   isTokenExpired(): boolean {
     debugger
-    if (this.getToken() == null) {
+    const tokenJSON = this.getToken();
+    if (tokenJSON == null || tokenJSON == '{}') {
       return false;
     }
     return this.jwtHelper.isTokenExpired(this.getToken()!);

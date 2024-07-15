@@ -6,6 +6,7 @@ import { RegisterDTO } from '../dtos/user/register.dto';
 import { environment } from '../enviroments/environment';
 import { HttpUtilService } from './http.util.service';
 import { UserResponse } from '../reponses/user/user.response';
+import { UserUpdateDTO } from '../dtos/user/user.update.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,6 @@ export class UserService {
   private apiUrlUser = `${environment.apiBaseUrl}/users`;
   private apiCongig = {
     headers: this.httpUtilService.createHeaders(),
-
   };
 
   constructor(
@@ -30,6 +30,17 @@ export class UserService {
 
   login(loginDTO: LoginDTO): Observable<any> {
     return this.http.post(`${this.apiUrlUser}/login`, loginDTO, this.apiCongig);
+  }
+
+  updateUser(token: string, userUpdateDTO: UserUpdateDTO): Observable<any> {
+    debugger
+    let userResponse = this.getUserToLocalStorage();
+    return this.http.put(`${this.apiUrlUser}/details/${userResponse?.id}`, userUpdateDTO, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      })
+    });
   }
 
   getUserDetails(token: string) {
@@ -64,8 +75,9 @@ export class UserService {
 
   getUserToLocalStorage(): UserResponse | null {
     try {
+      debugger
       const userResponseJSON = localStorage.getItem('user');
-      if (userResponseJSON == null || userResponseJSON == undefined) {
+      if (userResponseJSON == null || userResponseJSON == undefined || userResponseJSON == '{}') {
         return null;
       }
       const userResponse = JSON.parse(userResponseJSON!);
@@ -78,7 +90,8 @@ export class UserService {
 
   removeUserToLocalStorage(): void {
     try {
-      localStorage.removeItem('user');
+      // localStorage.removeItem('user');
+      localStorage.setItem('user', JSON.stringify({}));
     } catch (error) {
       console.error('Error removing user data from local storage:', error);
     }

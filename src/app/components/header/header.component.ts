@@ -3,6 +3,8 @@ import { UserResponse } from 'src/app/reponses/user/user.response';
 import { UserService } from 'src/app/service/user.service';
 import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import { TokenService } from 'src/app/service/token.service';
+import { Router } from '@angular/router';
+import { HttpUtilService } from 'src/app/service/http.util.service';
 
 @Component({
   selector: 'app-header',
@@ -13,10 +15,12 @@ export class HeaderComponent implements OnInit {
 
   userResponse?: UserResponse | null;
   isPopoverOpen = false;
+  activeNavItem: number = 0;
   constructor(
     private userService: UserService,
     private popoverConfig: NgbPopoverConfig,
     private tokenService: TokenService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -30,8 +34,14 @@ export class HeaderComponent implements OnInit {
 
   handleItemClick(index: number): void {
     debugger
-    alert(`Clicked on "${index}"`);
-    if (index === 2) {
+
+    if (index === 0) {
+      this.router.navigate(['/smember']);
+    }
+    else if (index === 1) {
+      alert(index);
+    }
+    else if (index === 2) {
       this.userService.removeUserToLocalStorage();
       this.tokenService.removeToken();
       this.userResponse = this.userService.getUserToLocalStorage();
@@ -39,5 +49,11 @@ export class HeaderComponent implements OnInit {
     this.isPopoverOpen = false; // Close the popover after clicking an item
   }
 
+
+
+  setActiveNavItem(index: number) {
+    debugger
+    this.activeNavItem = index;
+  }
 
 }

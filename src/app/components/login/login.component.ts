@@ -1,3 +1,4 @@
+import { HeaderComponent } from './../header/header.component';
 import { TokenService } from './../../service/token.service';
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
@@ -87,7 +88,12 @@ export class LoginComponent {
                 google_account_id: response.items.google_account_id
               };
               this.userService.saveUserToLocalStorage(this.userResponse);
-              this.router.navigate(['/']);
+              this.router.navigate(['/home']);
+              this.router.navigateByUrl('/home', { skipLocationChange: false }).then(() => {
+                window.location.reload();
+              });
+              
+
             },
             complete: () => {
               debugger;
