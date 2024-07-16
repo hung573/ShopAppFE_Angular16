@@ -71,7 +71,7 @@ export class OrderDetailComponent implements OnInit {
           response.items.shipping_date[1] - 1,
           response.items.shipping_date[2]
         );
-
+        this.orderResponse.shipping_address = response.items.shipping_address;
         this.orderResponse.shipping_method = response.items.shipping_method;
         this.orderResponse.status = response.items.status;
         this.orderResponse.total_money = response.items.total_money;

@@ -89,11 +89,16 @@ export class LoginComponent {
               };
               this.userService.saveUserToLocalStorage(this.userResponse);
               // this.router.navigate(['/home']);
-              this.router.navigateByUrl('/home', { skipLocationChange: false }).then(() => {
-                window.location.reload();
-              });
-
-
+              if (this.userResponse.role.id === 1) {
+                this.router.navigateByUrl('/admin', { skipLocationChange: false }).then(() => {
+                  window.location.reload();
+                });
+              }
+              else {
+                this.router.navigateByUrl('/home', { skipLocationChange: false }).then(() => {
+                  window.location.reload();
+                });
+              }
             },
             complete: () => {
               debugger;

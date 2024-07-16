@@ -16,6 +16,7 @@ export class UserProfileComponent implements OnInit {
   userResponse?: UserResponse;
   userProfileForm: FormGroup; // Đối tượng FormGroup để quản lý dữ liệu của form
   token: string;
+  timeZone: string;
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -34,6 +35,7 @@ export class UserProfileComponent implements OnInit {
       validators: this.passwordMathValidator()
     });
     this.token = '';
+    this.timeZone = 'Asia/Ho_Chi_Minh'
   }
   ngOnInit(): void {
     debugger;
@@ -41,16 +43,17 @@ export class UserProfileComponent implements OnInit {
     this.userService.getUserDetails(this.token).subscribe({
       next: (response: any) => {
         debugger;
+        const dateOfBirthISO = this.userService.convertToISODate(response.items.dateOfBirth, this.timeZone);
         this.userResponse = {
           ...response.items,
-          dateOfBirth: new Date(response.items.dateOfBirth)
+          dateOfBirth: dateOfBirthISO
         };
         this.userProfileForm.patchValue({
           fullname: this.userResponse?.fullname ?? '',
           password: '',
           retype_password: '',
           address: this.userResponse?.address ?? '',
-          date_of_birth: this.userResponse?.dateOfBirth.toISOString().substring(0, 10),
+          date_of_birth: this.userResponse?.dateOfBirth,
           facebook_account_id: this.userResponse?.facebook_account_id,
           google_account_id: this.userResponse?.google_account_id
         });

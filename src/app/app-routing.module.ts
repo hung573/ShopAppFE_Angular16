@@ -8,6 +8,8 @@ import { OrderComponent } from './components/order/order.component';
 import { OrderDetailComponent } from './components/order-detail/order.detail.component';
 import { AuthGuardFn } from './guards/auth.guard';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { AdminComponent } from './components/admin/admin.component';
+import { AdminGuardFn } from './guards/admin.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -17,7 +19,10 @@ const routes: Routes = [
   { path: 'products/:id', component: DetailProductComponent },
   { path: 'orders', component: OrderComponent, canActivate: [AuthGuardFn] },
   { path: 'smember', component: UserProfileComponent, canActivate: [AuthGuardFn] },
-  { path: 'orders/:id', component: OrderDetailComponent }
+  { path: 'orders/:id', component: OrderDetailComponent },
+
+  { path: 'admin', component: AdminComponent, canActivate: [AdminGuardFn] },
+
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

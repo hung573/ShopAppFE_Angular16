@@ -6,10 +6,12 @@ import { OrderDTO } from 'src/app/dtos/order/order.dto';
 import { environment } from 'src/app/enviroments/environment';
 import { Order } from 'src/app/models/order';
 import { Product } from 'src/app/models/product';
+import { UserResponse } from 'src/app/reponses/user/user.response';
 import { CartService } from 'src/app/service/cart.service';
 import { OrderService } from 'src/app/service/order.service';
 import { ProductService } from 'src/app/service/product.service';
 import { TokenService } from 'src/app/service/token.service';
+import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'app-order',
@@ -19,10 +21,11 @@ import { TokenService } from 'src/app/service/token.service';
 export class OrderComponent implements OnInit {
   orderForm: FormGroup; // Đối tượng FormGroup để quản lý dữ liệu của form
   cartItems: { product: Product, quantity: number }[] = [];
+  userResponse?: UserResponse;
   couponCode: string = ''; // Mã giảm giá
   totalAmount: number = 0; // Tổng tiền
   orderData: OrderDTO = {
-    user_id: 2, // Thay bằng user_id thích hợp
+    user_id: 0, // Thay bằng user_id thích hợp
     fullname: '', // Khởi tạo rỗng, sẽ được điền từ form
     email: '', // Khởi tạo rỗng, sẽ được điền từ form
     phone_number: '', // Khởi tạo rỗng, sẽ được điền từ form
@@ -34,7 +37,8 @@ export class OrderComponent implements OnInit {
     shipping_address: '',// Dia chi giao den
     coupon_code: '', // Sẽ được điền từ form khi áp dụng mã giảm giá
     cart_items: []
-  }
+  };
+  token: string;
 
   constructor(
     private cartService: CartService,
@@ -43,20 +47,21 @@ export class OrderComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private tokenService: TokenService,
+    private userService: UserService
 
 
   ) {
     // Tạo FormGroup và các FormControl tương ứng
     this.orderForm = this.fb.group({
-      fullname: ['HungTran', Validators.required], // fullname là FormControl bắt buộc
-      email: ['hung95391@gmail.com', [Validators.email]], // Sử dụng Validators.email cho kiểm tra định dạng email
-      phone_number: ['0936792404', [Validators.required, Validators.minLength(6)]], // phone_number bắt buộc và ít nhất 6 ký tự
-      address: ['Tổ 4, ấp tân điền, xã Lý Nhơn, huyện Cần Giờ, tp Hồ Chí Minh', [Validators.required, Validators.minLength(5)]], // address bắt buộc và ít nhất 5 ký tự
-      note: ['Được phép kiểm hàng'],
+      fullname: ['', Validators.required], // fullname là FormControl bắt buộc
+      email: ['', [Validators.email]], // Sử dụng Validators.email cho kiểm tra định dạng email
+      phone_number: ['', [Validators.required, Validators.minLength(6)]], // phone_number bắt buộc và ít nhất 6 ký tự
+      note: [''],
       shipping_method: ['express'],
-      shipping_address: ['Tổ 4, ấp Tân Điền, xã Lý Nhơn, huyện Cần Giờ, tp Hồ Chí Minh', [Validators.required, Validators.minLength(5)]], // address bắt buộc và ít nhất 5 ký tự
+      shipping_address: ['', [Validators.required, Validators.minLength(5)]], // address bắt buộc và ít nhất 5 ký tự
       payment_method: ['cod']
     });
+    this.token = '';
 
   }
 
@@ -72,7 +77,29 @@ export class OrderComponent implements OnInit {
     if (productIds.length === 0) {
       return;
     }
-
+    // Goi service để lấy thông tin khách hàng
+    debugger
+    this.token = this.tokenService.getToken() ?? '';
+    this.userService.getUserDetails(this.token).subscribe({
+      next: (response: any) => {
+        debugger;
+        this.userResponse = {
+          ...response.items,
+        };
+        this.orderForm.patchValue({
+          fullname: this.userResponse?.fullname ?? '',
+          phone_number: this.userResponse?.phone_number ?? '',
+          shipping_address: this.userResponse?.address ?? ''
+        });
+      },
+      complete: () => {
+        debugger;
+      },
+      error: (error: any) => {
+        debugger;
+        alert(error)
+      }
+    });
     // Gọi service để lấy thông tin sản phẩm dựa trên danh sách ID
     debugger
     this.productService.getProductsByIds(productIds).subscribe({
@@ -117,7 +144,8 @@ export class OrderComponent implements OnInit {
       // Sử dụng toán tử spread (...) để sao chép giá trị từ form vào orderData
       this.orderData = {
         ...this.orderData,
-        ...this.orderForm.value
+        ...this.orderForm.value,
+        address: this.userResponse?.address
       };
       this.orderData.cart_items = this.cartItems.map(cartItem => ({
         product_id: cartItem.product.id,

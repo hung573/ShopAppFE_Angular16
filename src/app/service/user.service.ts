@@ -61,7 +61,6 @@ export class UserService {
       if (userResponse == null || !userResponse) {
         return;
       }
-
       // Convert the userResponse object to a Json string
       const userResponseJSON = JSON.stringify(userResponse);
       // Save the Json string to local storage with a key 'userResponse'
@@ -95,6 +94,19 @@ export class UserService {
     } catch (error) {
       console.error('Error removing user data from local storage:', error);
     }
+  }
+
+  convertToISODate(dateString: string, timeZone: string): string {
+    const date = new Date(dateString);
+    const dateStringInTimeZone = date.toLocaleString('en-GB', {
+      timeZone: timeZone,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    });
+
+    const [day, month, year] = dateStringInTimeZone.split('/');
+    return `${year}-${month}-${day}`;
   }
 
 }

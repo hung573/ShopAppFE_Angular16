@@ -15,6 +15,7 @@ import { AppComponent } from './components/app/app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { AdminComponent } from './components/admin/admin.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
     RegisterComponent,
     DetailProductComponent,
     AppComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    AdminComponent
   ],
   imports: [
     ReactiveFormsModule,

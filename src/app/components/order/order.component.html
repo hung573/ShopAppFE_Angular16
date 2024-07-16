@@ -69,22 +69,6 @@
             </div>
           </div>
         </div>
-        <div class="mb-3">
-          <label for="address" class="form-label">Địa chỉ</label>
-          <input type="text"
-            class="form-control"
-            formControlName="address"
-            placeholder="Địa chỉ"
-            required
-            id="address"
-            name="address"
-            [class.is-invalid]="orderForm.get('address')!.invalid && orderForm.get('address')!.touched">
-          <div
-            *ngIf="orderForm.get('address')!.invalid && orderForm.get('address')!.touched"
-            class="invalid-feedback">
-            Địa chỉ là trường bắt buộc và ít nhất 5 ký tự.
-          </div>
-        </div>
       </div>
       <div class="col-md-6">
         <div class="mb-3">
