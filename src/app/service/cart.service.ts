@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { ProductService } from "./product.service";
+import { BehaviorSubject } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,6 @@ export class CartService {
 
   private cart: Map<number, number> = new Map(); // Dùng Map để lưu trữ giỏ hàng, key là id sản phẩm, value là số lượng
 
-
   constructor(private productService: ProductService) {
     const storedCart = localStorage.getItem('cart');
     if (storedCart) {
@@ -19,7 +19,7 @@ export class CartService {
   }
 
   // Lưu trữ giỏ hàng vào localStorage
-  private saveCartToLocalStorage(): void {
+  public saveCartToLocalStorage(): void {
     debugger
     localStorage.setItem('cart', JSON.stringify(Array.from(this.cart.entries())));
   }
@@ -37,6 +37,38 @@ export class CartService {
     this.saveCartToLocalStorage();
   }
 
+  adddQuantityCart(productId: number) {
+    debugger
+    if (this.cart.has(productId)) {
+      // Nếu sản phẩm đã có trong giỏ hàng, tăng số lượng lên `quantity`
+      this.cart.set(productId, this.cart.get(productId)! + 1);
+      // Sau khi thay đổi giỏ hàng, lưu trữ nó vào localStorage
+      this.saveCartToLocalStorage();
+    }
+  }
+
+  removeQuantityCart(productId: number) {
+    debugger
+    if (this.cart.has(productId)) {
+      // Nếu số lượng sản phẩm trong giỏ hàng lớn hơn 1, giảm số lượng đi 1
+      if (this.cart.get(productId)! > 1) {
+        this.cart.set(productId, this.cart.get(productId)! - 1);
+      }
+      // Sau khi thay đổi giỏ hàng, lưu trữ nó vào localStorage và cập nhật Subject
+      this.saveCartToLocalStorage();
+    }
+  }
+
+  checkQuantity(productId: number): boolean {
+    if (this.cart.has(productId)) {
+      // Nếu số lượng sản phẩm trong giỏ hàng lớn hơn 1, giảm số lượng đi 1
+      if (this.cart.get(productId)! == 1) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   getCart(): Map<number, number> {
     return this.cart;
   }
@@ -46,5 +78,11 @@ export class CartService {
     this.cart.clear(); // Xóa toàn bộ dữ liệu trong giỏ hàng
     this.saveCartToLocalStorage(); // Lưu giỏ hàng mới vào Local Storage (trống)
   }
+
+  deleteItemCart(productId: number): void {
+    this.cart.delete(productId);
+    this.saveCartToLocalStorage();
+  }
+
 
 }

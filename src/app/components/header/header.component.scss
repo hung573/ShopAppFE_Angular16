@@ -1,8 +1,15 @@
 @import '../../styles/shared-style.scss';
 
 header {
-  background-color: rgba(0, 0, 0, 0);
+  // background-color: rgba(0, 0, 0, 0);
+  background-color: rgb(14,17,36);
   color: rgb(173, 178, 203);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  height: 70px;
 }
 
 .navbar {

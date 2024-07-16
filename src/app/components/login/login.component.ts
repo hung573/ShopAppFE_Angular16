@@ -88,11 +88,11 @@ export class LoginComponent {
                 google_account_id: response.items.google_account_id
               };
               this.userService.saveUserToLocalStorage(this.userResponse);
-              this.router.navigate(['/home']);
+              // this.router.navigate(['/home']);
               this.router.navigateByUrl('/home', { skipLocationChange: false }).then(() => {
                 window.location.reload();
               });
-              
+
 
             },
             complete: () => {

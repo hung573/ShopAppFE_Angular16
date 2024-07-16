@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { OrderDTO } from 'src/app/dtos/order/order.dto';
 import { environment } from 'src/app/enviroments/environment';
 import { Order } from 'src/app/models/order';
@@ -45,7 +46,6 @@ export class OrderComponent implements OnInit {
 
 
   ) {
-
     // Tạo FormGroup và các FormControl tương ứng
     this.orderForm = this.fb.group({
       fullname: ['HungTran', Validators.required], // fullname là FormControl bắt buộc
@@ -160,6 +160,28 @@ export class OrderComponent implements OnInit {
   applyCoupon(): void {
     // Viết mã xử lý áp dụng mã giảm giá ở đây
     // Cập nhật giá trị totalAmount dựa trên mã giảm giá nếu áp dụng
+  }
+
+  onProductClick(productId: number) {
+    debugger
+    this.router.navigate(['/products', productId]);
+  }
+
+  deItemProduct(productId: number) {
+    this.cartService.deleteItemCart(productId);
+    this.ngOnInit();
+  }
+
+  addQuantity(productID: number): void {
+    this.cartService.adddQuantityCart(productID);
+    this.ngOnInit();
+  }
+  removeQuantity(productID: number): void {
+    this.cartService.removeQuantityCart(productID);
+    this.ngOnInit();
+    if (this.cartService.checkQuantity(productID)) {
+      alert('Số lượng sản phẩm đã giảm đến mức tối thiểu')
+    }
   }
 
 }
