@@ -16,6 +16,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { AdminComponent } from './components/admin/admin.component';
+import { OrderAdminComponent } from './components/admin/order.admin/order.admin.component';
+import { ProductAdminComponent } from './components/admin/product.admin/product.admin.component';
+import { CategoryAdminComponent } from './components/admin/category.admin/category.admin.component';
 
 
 @NgModule({
@@ -30,7 +33,10 @@ import { AdminComponent } from './components/admin/admin.component';
     DetailProductComponent,
     AppComponent,
     UserProfileComponent,
-    AdminComponent
+    AdminComponent,
+    OrderAdminComponent,
+    ProductAdminComponent,
+    CategoryAdminComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -54,7 +60,9 @@ import { AdminComponent } from './components/admin/admin.component';
     // LoginComponent,
     // RegisterComponent,
     // DetailProductComponent,
-    AppComponent
+    AppComponent,
+    // AdminComponent
+
 
   ]
 })

@@ -95,7 +95,7 @@ export class HomeComponent implements OnInit {
 
   generateVisiblePageArray(currentPage: number, totalPages: number): number[] {
 
-    const maxVisiblePages = 16;
+    const maxVisiblePages = 5;
     const halfVisiblePages = Math.floor(maxVisiblePages / 2);
 
     let startPage = Math.max(currentPage - halfVisiblePages, 1);

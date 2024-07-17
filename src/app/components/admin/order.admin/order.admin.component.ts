@@ -1,0 +1,87 @@
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Order } from 'src/app/models/order';
+import { OrderResponse } from 'src/app/reponses/order/order.response';
+import { OrderService } from 'src/app/service/order.service';
+
+@Component({
+  selector: 'app-order-admin',
+  templateUrl: './order.admin.component.html',
+  styleUrls: ['./order.admin.component.scss']
+})
+export class OrderAdminComponent implements OnInit {
+  orders: OrderResponse[] = [];
+  currentPage = 1;
+  itemsPerPage = 12;
+  pages: number[] = [];
+  totalPages: number = 0;
+  visiblePages: number[] = [];
+  keyword: string = "";
+
+  constructor(
+    private router: Router,
+    private orderService: OrderService
+  ) {
+
+  }
+  ngOnInit(): void {
+    debugger
+    this.getOrders(this.keyword, this.currentPage, this.itemsPerPage);
+  }
+
+
+
+  getOrders(keyword: string, page: number, limit: number) {
+    debugger
+    this.orderService.getAllOrders(keyword, page, limit).subscribe({
+      next: (response: any) => {
+        debugger
+        this.orders = response.items;
+        this.totalPages = response.totalPages;
+        this.visiblePages = this.generateVisiblePageArray(this.currentPage, this.totalPages);
+      },
+      complete: () => {
+        debugger;
+      },
+      error: (error: any) => {
+        debugger;
+        console.error('Error fetching order:', error);
+      }
+    });
+  }
+  onPageChange(page: number) {
+    debugger;
+    this.currentPage = page;
+    this.getOrders(this.keyword, this.currentPage, this.itemsPerPage);
+  }
+
+  generateVisiblePageArray(currentPage: number, totalPages: number): number[] {
+
+    const maxVisiblePages = 5;
+    const halfVisiblePages = Math.floor(maxVisiblePages / 2);
+
+    let startPage = Math.max(currentPage - halfVisiblePages, 1);
+    let endPage = Math.min(startPage + maxVisiblePages - 1, totalPages);
+    if (endPage - startPage + 1 < maxVisiblePages) {
+      startPage = Math.max(endPage - maxVisiblePages + 1, 1);
+    }
+
+    return new Array(endPage - startPage + 1).fill(0).map((_, index) => startPage + index);
+  }
+
+  searchOrder() {
+    this.currentPage = 1;
+    this.itemsPerPage = 12;
+    debugger
+    this.getOrders(this.keyword, this.currentPage, this.itemsPerPage);
+  }
+
+  onOrderClick(orderId: number) {
+    debugger
+    // this.router.navigate(['/products', productId]);
+  }
+
+  limitText(text: string, limit: number): string {
+    return text.length > limit ? text.substring(0, limit) + '...' : text;
+  }
+}
