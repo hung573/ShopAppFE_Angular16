@@ -1,4 +1,3 @@
-import { HeaderComponent } from './../header/header.component';
 import { NavigationEnd, Router } from '@angular/router';
 import { Component, OnInit, Renderer2 } from '@angular/core';
 

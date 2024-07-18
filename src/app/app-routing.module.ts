@@ -13,6 +13,7 @@ import { AdminGuardFn } from './guards/admin.guard';
 import { OrderAdminComponent } from './components/admin/order.admin/order.admin.component';
 import { ProductAdminComponent } from './components/admin/product.admin/product.admin.component';
 import { CategoryAdminComponent } from './components/admin/category.admin/category.admin.component';
+import { CategoryDetailAdminComponent } from './components/admin/category-detail.admin/category-detail.admin.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -24,13 +25,13 @@ const routes: Routes = [
   { path: 'smember', component: UserProfileComponent, canActivate: [AuthGuardFn] },
   { path: 'orders/:id', component: OrderDetailComponent },
 
+  //Admin
   {
     path: 'admin', component: AdminComponent, canActivate: [AdminGuardFn], children: [
-      {
-        path: 'orders', component: OrderAdminComponent, canActivate: [AdminGuardFn]
-      },
-      { path: 'products', component: ProductAdminComponent, canActivate: [AdminGuardFn] },
-      { path: 'categories', component: CategoryAdminComponent, canActivate: [AdminGuardFn] },
+      { path: 'orders', component: OrderAdminComponent },
+      { path: 'products', component: ProductAdminComponent },
+      { path: 'categories', component: CategoryAdminComponent },
+      { path: 'category/:id', component: CategoryDetailAdminComponent },
     ]
   },
 

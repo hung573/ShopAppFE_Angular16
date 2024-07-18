@@ -11,14 +11,11 @@ import { DetailProductComponent } from './components/detail-product/detail-produ
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './interceptors/token.interceptor';
-import { AppComponent } from './components/app/app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
-import { AdminComponent } from './components/admin/admin.component';
-import { OrderAdminComponent } from './components/admin/order.admin/order.admin.component';
-import { ProductAdminComponent } from './components/admin/product.admin/product.admin.component';
-import { CategoryAdminComponent } from './components/admin/category.admin/category.admin.component';
+import { AppComponent } from './app/app.component';
+import { AdminModule } from './components/admin/admin.module';
 
 
 @NgModule({
@@ -33,10 +30,10 @@ import { CategoryAdminComponent } from './components/admin/category.admin/catego
     DetailProductComponent,
     AppComponent,
     UserProfileComponent,
-    AdminComponent,
-    OrderAdminComponent,
-    ProductAdminComponent,
-    CategoryAdminComponent,
+    // AdminComponent,
+    // OrderAdminComponent,
+    // ProductAdminComponent,
+    // CategoryAdminComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -44,7 +41,8 @@ import { CategoryAdminComponent } from './components/admin/category.admin/catego
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
-    NgbModule
+    NgbModule,
+    AdminModule
   ],
   providers: [
     {

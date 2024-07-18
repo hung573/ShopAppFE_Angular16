@@ -19,6 +19,9 @@
     "@angular/platform-browser-dynamic": "^16.1.0",
     "@angular/router": "^16.1.0",
     "@auth0/angular-jwt": "^5.2.0",
+    "@coreui/angular": "2.16.x",
+    "@coreui/chartjs": "^4.0.0",
+    "@coreui/icons": "^3.0.1",
     "@fortawesome/fontawesome-free": "^6.5.2",
     "@ng-bootstrap/ng-bootstrap": "^15.1.2",
     "@popperjs/core": "^2.11.6",
@@ -27,6 +30,7 @@
     "class-validator": "^0.14.1",
     "font-awesome": "^4.7.0",
     "rxjs": "~7.8.0",
+    "simplebar": "^6.2.7",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
   },
