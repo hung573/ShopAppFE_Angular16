@@ -20,7 +20,7 @@ export class OrderAdminComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private orderService: OrderService
+    private orderService: OrderService,
   ) {
 
   }
@@ -76,9 +76,31 @@ export class OrderAdminComponent implements OnInit {
     this.getOrders(this.keyword, this.currentPage, this.itemsPerPage);
   }
 
-  onOrderClick(orderId: number) {
+  onDetailOrderClick(orderId: number) {
     debugger
-    // this.router.navigate(['/products', productId]);
+    this.router.navigate(['/admin/order', orderId]);
+  }
+
+  onDeleteOrderClick(orderId: number) {
+    debugger
+    const confirmation = window
+      .confirm('Are you sure you want to delete this order?');
+    if (confirmation) {
+      debugger
+      this.orderService.DeleteOrder(orderId).subscribe({
+        next: (response: any) => {
+          debugger
+          this.ngOnInit();
+        },
+        complete: () => {
+          debugger;
+        },
+        error: (error: any) => {
+          debugger;
+          console.error('Error fetching products:', error);
+        }
+      });
+    }
   }
 
   limitText(text: string, limit: number): string {

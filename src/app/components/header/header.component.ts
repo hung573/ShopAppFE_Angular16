@@ -5,6 +5,7 @@ import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import { TokenService } from 'src/app/service/token.service';
 import { Router } from '@angular/router';
 import { HttpUtilService } from 'src/app/service/http.util.service';
+import { CartService } from 'src/app/service/cart.service';
 
 @Component({
   selector: 'app-header',
@@ -21,6 +22,7 @@ export class HeaderComponent implements OnInit {
     private popoverConfig: NgbPopoverConfig,
     private tokenService: TokenService,
     private router: Router,
+    private cartService: CartService
   ) { }
 
   ngOnInit(): void {
@@ -44,6 +46,7 @@ export class HeaderComponent implements OnInit {
     else if (index === 2) {
       this.userService.removeUserToLocalStorage();
       this.tokenService.removeToken();
+      this.cartService.clearCart();
       this.userResponse = this.userService.getUserToLocalStorage();
     }
     this.isPopoverOpen = false; // Close the popover after clicking an item

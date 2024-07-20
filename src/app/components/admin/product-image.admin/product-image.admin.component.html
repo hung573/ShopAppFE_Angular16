@@ -4,37 +4,29 @@
   <table class="table table-striped">
     <thead>
       <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Họ và tên</th>
-        <th scope="col">Email</th>
-        <th scope="col">Phone</th>
-        <th scope="col">Địa chỉ</th>
-        <th scope="col">Ngày đặt</th>
-        <th scope="col">Trạng thái</th>
-        <th scope="col">Tổng tiền</th>
+        <th scope="col">#</th>
+        <th scope="col">ID sản phẩm</th>
+        <th scope="col">Tên sản phẩm</th>
+        <th scope="col">Hình sản phẩm</th>
         <th scope="col"></th>
         <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let order of orders">
-        <th>{{order.id}}</th>
-        <td>{{order.fullname}}</td>
-        <td>{{order.email}}</td>
-        <td>{{order.phone_number}}</td>
-        <td>{{limitText(order.shipping_address,20)}}</td>
-        <td>{{order.shipping_date}}</td>
-        <td>{{order.status}}</td>
-        <td>{{order.total_money | number}} VND</td>
+      <tr *ngFor="let p_img of product_image">
+        <th>{{p_img.id}}</th>
+        <td>{{p_img.product_id}}</td>
+        <td style="width: 500px;">{{limitText(p_img.product_name,50)}}</td>
         <td>
-          <button type="button" class="btn btn-outline-warning"
-            (click)="onDetailOrderClick(order.id)">
-            View Detail
-          </button>
+          <div class="product-info">
+            <img [src]="p_img.image_url" alt="Product Image"
+              class="product-image">
+          </div>
         </td>
+        <td><button type="button" class="btn btn-outline-warning">Cập
+            nhật</button></td>
         <td><button type="button"
-            class="btn btn-outline-danger"
-            (click)="onDeleteOrderClick(order.id)">Xoá</button></td>
+            class="btn btn-outline-danger">Xoá</button></td>
       </tr>
     </tbody>
   </table>

@@ -30,6 +30,12 @@ export class OrderService {
       .set('page', page.toString())
       .set('limit', limit.toString());
     return this.http.get<Order[]>(`${this.apiUrl}/get-order-by-keyword`, { params });
+  }
+  UpdateOrder(orderDTO: OrderDTO, orderId: number): Observable<any> {
+    return this.http.put(`${this.apiUrl}/update/${orderId}`, orderDTO);
+  }
 
+  DeleteOrder(orderId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/delete/${orderId}`);
   }
 }

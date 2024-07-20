@@ -11,6 +11,11 @@ import { BrowserModule } from "@angular/platform-browser";
 import { HttpClientModule } from "@angular/common/http";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ProductDetailAdminComponent } from './product-detail.admin/product-detail.admin.component';
+import { OrderDetailAdminComponent } from './order-detail.admin/order-detail.admin.component';
+import { ProductImageAdminComponent } from './product-image.admin/product-image.admin.component';
+import { ProductImageDetailAdminComponent } from './product-image-detail.admin/product-image-detail.admin.component';
+import { RoleAdminComponent } from './role.admin/role.admin.component';
+import { SocialAccountsAdminComponent } from './social-accounts.admin/social-accounts.admin.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +24,12 @@ import { ProductDetailAdminComponent } from './product-detail.admin/product-deta
     ProductAdminComponent,
     CategoryAdminComponent,
     CategoryDetailAdminComponent,
-    ProductDetailAdminComponent
+    ProductDetailAdminComponent,
+    OrderDetailAdminComponent,
+    ProductImageAdminComponent,
+    ProductImageDetailAdminComponent,
+    RoleAdminComponent,
+    SocialAccountsAdminComponent
   ],
   imports: [
     AdminRoutingModule,

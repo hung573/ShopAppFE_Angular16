@@ -19,6 +19,8 @@ export class OrderDTO {
 
   note: string;
 
+  status: string;
+
   total_money: number;
 
   shipping_method: string;
@@ -39,6 +41,7 @@ export class OrderDTO {
     this.phone_number = data.phone_number;
     this.address = data.address;
     this.note = data.note;
+    this.status = data.status;
     this.total_money = data.total_money;
     this.shipping_method = data.shipping_method;
     this.shipping_address = data.shipping_address;
