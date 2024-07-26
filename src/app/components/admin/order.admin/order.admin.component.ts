@@ -17,18 +17,15 @@ export class OrderAdminComponent implements OnInit {
   totalPages: number = 0;
   visiblePages: number[] = [];
   keyword: string = "";
-
   constructor(
     private router: Router,
     private orderService: OrderService,
   ) {
-
   }
   ngOnInit(): void {
     debugger
     this.getOrders(this.keyword, this.currentPage, this.itemsPerPage);
   }
-
 
 
   getOrders(keyword: string, page: number, limit: number) {

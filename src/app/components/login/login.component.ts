@@ -22,9 +22,9 @@ export class LoginComponent implements OnInit {
 
   phoneNumber: string = '';
   password: string = '';
-
+  passwordFieldType: string = 'password';
   roles: Role[] = []; // Mảng roles
-  rememberMe: boolean = true;
+  rememberMe: boolean = false;
   selectedRole: Role | undefined; // Biến để lưu giá trị được chọn từ dropdown
   userResponse?: UserResponse;
 
@@ -109,6 +109,9 @@ export class LoginComponent implements OnInit {
             }
           });
         }
+        else {
+          alert('Check')
+        }
       },
       complete: () => {
         debugger
@@ -117,6 +120,16 @@ export class LoginComponent implements OnInit {
         alert(error.error.message);
       }
     })
+  }
+  togglePasswordVisibility(): void {
+    this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
+  }
+  checkRememberMe(): void {
+    if (this.rememberMe) {
+      this.rememberMe = false;
+    } else {
+      this.rememberMe = true;
+    }
   }
 
 }

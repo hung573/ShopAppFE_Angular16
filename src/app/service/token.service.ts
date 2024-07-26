@@ -11,8 +11,7 @@ export class TokenService {
   private readonly TOKEN_KEY = 'access_token';
   private readonly USER_KEY = 'user';
   private jwtHelper = new JwtHelperService();
-  private check: boolean = false;
-  constructor(private userService: UserService) { }
+  constructor() { }
 
   // getter va setter
   getToken(): string | null {

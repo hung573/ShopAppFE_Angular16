@@ -120,4 +120,15 @@ td {
   /* Khoảng cách từ nút tới đáy màn hình */
 }
 
+.fa-solid.fa-trash {
+  cursor: pointer;
+  font-size: 20px;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.fa-solid.fa-trash:hover {
+  color: red;
+  transform: scale(1.5);
+}
+
 

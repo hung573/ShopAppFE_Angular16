@@ -32,6 +32,7 @@ export class OrderComponent implements OnInit {
     address: '', // Khởi tạo rỗng, sẽ được điền từ form
     note: '', // Có thể thêm trường ghi chú nếu cần
     total_money: 0, // Sẽ được tính toán dựa trên giỏ hàng và mã giảm giá
+    shipping_date: new Date(),
     status: 'pending',
     payment_method: 'cod', // Mặc định là thanh toán khi nhận hàng (COD)
     shipping_method: 'express', // Mặc định là vận chuyển nhanh (Express)
@@ -70,6 +71,7 @@ export class OrderComponent implements OnInit {
     debugger
     this.orderData.user_id = this.tokenService.getUserId();
 
+    debugger
     const cart = this.cartService.getCart();
     const productIds = Array.from(cart.keys()); // Chuyển danh sách ID từ Map giỏ hàng
 
@@ -117,6 +119,7 @@ export class OrderComponent implements OnInit {
     });
     debugger
     if (productIds.length === 0) {
+      this.cartItems = [];
       return;
     }
     // Gọi service để lấy thông tin sản phẩm dựa trên danh sách ID
@@ -136,7 +139,6 @@ export class OrderComponent implements OnInit {
             quantity: cart.get(productId)!
           };
         });
-        console.log('haha');
       },
       complete: () => {
         debugger;
@@ -231,8 +233,5 @@ export class OrderComponent implements OnInit {
     }
   }
 
-}
-function ViewChild(AlertComponent: any): (target: OrderComponent, propertyKey: "alertComponent") => void {
-  throw new Error('Function not implemented.');
 }
 

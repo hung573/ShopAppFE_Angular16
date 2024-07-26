@@ -25,11 +25,15 @@
             <label for="password">Mật khẩu</label>
             <div class="password-wrapper">
               <input type="password" placeholder="Ít nhất 6 ký tự"
+                [type]="passwordFieldType"
                 class="form-control" id="password"
                 name="password"
                 required
                 [(ngModel)]="password">
-              <i class="password-toggle fas fa-eye-slash"></i>
+              <i class="password-toggle fas fa-eye-slash"
+                [class.fa-eye-slash]="passwordFieldType === 'password'"
+                [class.fa-eye]="passwordFieldType === 'text'"
+                (click)="togglePasswordVisibility()"></i>
             </div>
             <div class="divider-nospace"></div>
             <p class="text-danger"
@@ -48,7 +52,6 @@
                 [(ngModel)]="retypePassword"
                 (input)="checkPasswordsMatch()"
                 required>
-              <i class="password-toggle fas fa-eye-slash"></i>
             </div>
             <div class="divider-nospace"></div>
             <p class="text-danger"
@@ -110,7 +113,8 @@
               <span style="display: flex;">
                 <input type="checkbox" class="form-check-input" id="agree"
                   name="isAccepted"
-                  [(ngModel)]="isAccepted">
+                  [(ngModel)]="isAccepted"
+                  (click)="checkAccepted()">
                 <label class="form-check-label text-start" for="agree">
                   Tôi đồng ý với các điều khoản và điều kiện</label>
               </span>
@@ -128,4 +132,3 @@
   </form>
 </div>
 <app-footer></app-footer>
-

@@ -21,11 +21,13 @@ export class RegisterComponent {
   addRess: string;
   isAccepted: boolean;
   dateOfBirth: Date;
+  passwordFieldType: string = 'password';
 
-  constructor( private router: Router, private userService: UserService){
+
+  constructor(private router: Router, private userService: UserService) {
     this.phoneNumber = '';
     this.password = '';
-    this.retypePassword  = '';
+    this.retypePassword = '';
     this.fullName = '';
     this.addRess = '';
     this.isAccepted = false;
@@ -34,7 +36,7 @@ export class RegisterComponent {
     // inject
   }
 
-  onPhoneNumberChange(){
+  onPhoneNumberChange() {
     console.log(`phone Type: ${this.phoneNumber}`);
   }
 
@@ -49,8 +51,8 @@ export class RegisterComponent {
       "facebook_account_id": 0,
       "google_account_id": 0
     };
-
-    this.userService.register(registerDTO).subscribe({
+    if (this.isAccepted) {
+      this.userService.register(registerDTO).subscribe({
         next: (response: any) => {
           debugger
           this.router.navigate(['/login']);
@@ -61,14 +63,18 @@ export class RegisterComponent {
         error: (error: any) => {
           alert(`Cannot register, error: ${error.error}`)
         }
-    })
+      })
+    } else {
+      alert('check')
+    }
+
   }
 
   //check mk gõ lại
   checkPasswordsMatch() {
     if (this.password !== this.retypePassword) {
       this.registerForm.form.controls['retypePassword']
-            .setErrors({ 'passwordMismatch': true });
+        .setErrors({ 'passwordMismatch': true });
     } else {
       this.registerForm.form.controls['retypePassword'].setErrors(null);
     }
@@ -98,6 +104,16 @@ export class RegisterComponent {
       } else {
         this.registerForm.form.controls['dateOfBirth'].setErrors(null);
       }
+    }
+  }
+  togglePasswordVisibility(): void {
+    this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
+  }
+  checkAccepted(): void {
+    if (this.isAccepted) {
+      this.isAccepted = false;
+    } else {
+      this.isAccepted = true;
     }
   }
 }

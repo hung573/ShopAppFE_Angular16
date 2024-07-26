@@ -18,6 +18,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { AppComponent } from './app/app.component';
 import { AdminModule } from './components/admin/admin.module';
 import { TokenService } from './service/token.service';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -44,7 +45,7 @@ import { TokenService } from './service/token.service';
     HttpClientModule,
     AppRoutingModule,
     NgbModule,
-    AdminModule
+    AdminModule,
   ],
   providers: [
     {

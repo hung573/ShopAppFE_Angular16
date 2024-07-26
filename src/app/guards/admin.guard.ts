@@ -1,3 +1,4 @@
+import { CartService } from 'src/app/service/cart.service';
 import { Injectable, inject } from "@angular/core";
 import { Router, ActivatedRouteSnapshot, RouterStateSnapshot, CanActivateFn } from "@angular/router";
 import { TokenService } from "src/app/service/token.service";
@@ -12,7 +13,8 @@ export class AdminGuard {
   constructor(
     private tokenService: TokenService,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private cartService: CartService
   ) { }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
@@ -27,6 +29,10 @@ export class AdminGuard {
     } else {
       // Nếu không authenticated, bạn có thể redirect hoặc trả về một UrlTree khác.
       // Ví dụ trả về trang login:
+      this.userService.removeUserToLocalStorage();
+      this.tokenService.removeToken();
+      this.cartService.clearCart();
+      this.userResponse = this.userService.getUserToLocalStorage();
       this.router.navigate(['/login']);
       return false;
     }

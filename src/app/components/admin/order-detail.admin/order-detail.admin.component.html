@@ -15,7 +15,14 @@
         <p><strong>Note:</strong> {{ orderResponse.note }}</p>
         <p><strong>Order Date:</strong> {{ orderResponse.order_date | date
           }}</p>
+        <!-- <p><strong>Shipping Date:</strong> {{ orderResponse.shipping_date | date
+          }}</p> -->
         <div class="form-group">
+          <label for="statusSelect"><strong
+              style="color: red;">Shipping Date(*):</strong></label>
+          <input type="date" class="form-control" id="shipping_date"
+            [(ngModel)]="orderResponse.shipping_date"
+            name="shipping_date">
           <label for="statusSelect"><strong
               style="color: red;">Status(*):</strong></label>
           <select class="form-control" id="statusSelect"
@@ -62,5 +69,6 @@
       <h4 style="color: red;"><strong>Total Money:</strong> {{
         orderResponse.total_money | number}}
         VND</h4>
-      <button class="btn btn-primary col-md-2" (click)="updateOrder(orderResponse.id)">Save</button>
+      <button class="btn btn-primary col-md-2"
+        (click)="updateOrder(orderResponse.id)">Save</button>
     </div>

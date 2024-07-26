@@ -38,4 +38,16 @@ export class OrderService {
   DeleteOrder(orderId: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/delete/${orderId}`);
   }
+  convertToISODate(dateString: string, timeZone: string): string {
+    const date = new Date(dateString);
+    const dateStringInTimeZone = date.toLocaleString('en-GB', {
+      timeZone: timeZone,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    });
+
+    const [day, month, year] = dateStringInTimeZone.split('/');
+    return `${year}-${month}-${day}`;
+  }
 }

@@ -10,6 +10,7 @@
         <th scope="col">Phone</th>
         <th scope="col">Địa chỉ</th>
         <th scope="col">Ngày đặt</th>
+        <th scope="col">Ngày giao đến</th>
         <th scope="col">Trạng thái</th>
         <th scope="col">Tổng tiền</th>
         <th scope="col"></th>
@@ -23,7 +24,8 @@
         <td>{{order.email}}</td>
         <td>{{order.phone_number}}</td>
         <td>{{limitText(order.shipping_address,20)}}</td>
-        <td>{{order.shipping_date}}</td>
+        <td>{{order.order_date | date}}</td>
+        <td>{{order.shipping_date | date}}</td>
         <td>{{order.status}}</td>
         <td>{{order.total_money | number}} VND</td>
         <td>
