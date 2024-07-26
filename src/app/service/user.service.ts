@@ -1,7 +1,8 @@
+import { TokenService } from 'src/app/service/token.service';
 import { LoginDTO } from './../dtos/user/login.dto';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { RegisterDTO } from '../dtos/user/register.dto';
 import { environment } from '../enviroments/environment';
 import { HttpUtilService } from './http.util.service';
@@ -19,7 +20,7 @@ export class UserService {
 
   constructor(
     private http: HttpClient,
-    private httpUtilService: HttpUtilService
+    private httpUtilService: HttpUtilService,
 
   ) { }
 
@@ -108,5 +109,23 @@ export class UserService {
     const [day, month, year] = dateStringInTimeZone.split('/');
     return `${year}-${month}-${day}`;
   }
+
+  getTokenToDB(token: string) {
+    debugger
+    return this.http.post(
+      `${this.apiUrlUser}/check`,
+      {
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        })
+      }
+    );
+  }
+
+  refreshToken(refreshToken: string) {
+
+  }
+
 
 }

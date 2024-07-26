@@ -1,4 +1,5 @@
-import { NgModule } from '@angular/core';
+import { UserService } from 'src/app/service/user.service';
+import { NgModule, OnInit } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HomeComponent } from './components/home/home.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -16,6 +17,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { AppComponent } from './app/app.component';
 import { AdminModule } from './components/admin/admin.module';
+import { TokenService } from './service/token.service';
+import { AlertComponent } from './components/alert/alert.component';
 
 
 @NgModule({
@@ -30,6 +33,7 @@ import { AdminModule } from './components/admin/admin.module';
     DetailProductComponent,
     AppComponent,
     UserProfileComponent,
+    AlertComponent,
     // AdminComponent,
     // OrderAdminComponent,
     // ProductAdminComponent,
@@ -64,4 +68,6 @@ import { AdminModule } from './components/admin/admin.module';
 
   ]
 })
-export class AppModule { }
+export class AppModule{
+
+}

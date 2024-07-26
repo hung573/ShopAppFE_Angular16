@@ -1,12 +1,18 @@
-import { Injectable, inject } from "@angular/core";
+import { Component, Injectable, inject } from "@angular/core";
 import { Router, ActivatedRouteSnapshot, RouterStateSnapshot, CanActivateFn } from "@angular/router";
 import { TokenService } from "src/app/service/token.service";
+import { UserService } from "../service/user.service";
+import { map, Observable } from "rxjs";
+import { UserResponse } from "../reponses/user/user.response";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
+
 export class AuthGuard {
-  constructor(private tokenService: TokenService, private router: Router) { }
+  constructor(
+    private tokenService: TokenService,
+    private router: Router) { }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     debugger
@@ -16,12 +22,11 @@ export class AuthGuard {
     if (!isTokenExpired && isUserIdValid) {
       return true;
     } else {
-      // Nếu không authenticated, bạn có thể redirect hoặc trả về một UrlTree khác.
-      // Ví dụ trả về trang login:
       this.router.navigate(['/login']);
       return false;
     }
   }
+
 }
 
 // Sử dụng functional guard như sau:

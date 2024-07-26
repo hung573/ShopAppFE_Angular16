@@ -12,6 +12,7 @@ import { OrderService } from 'src/app/service/order.service';
 import { ProductService } from 'src/app/service/product.service';
 import { TokenService } from 'src/app/service/token.service';
 import { UserService } from 'src/app/service/user.service';
+import { AlertComponent } from '../alert/alert.component';
 
 @Component({
   selector: 'app-order',
@@ -21,7 +22,7 @@ import { UserService } from 'src/app/service/user.service';
 export class OrderComponent implements OnInit {
   orderForm: FormGroup; // Đối tượng FormGroup để quản lý dữ liệu của form
   cartItems: { product: Product, quantity: number }[] = [];
-  userResponse?: UserResponse;
+  userResponse?: UserResponse | null;
   couponCode: string = ''; // Mã giảm giá
   totalAmount: number = 0; // Tổng tiền
   orderData: OrderDTO = {
@@ -48,8 +49,7 @@ export class OrderComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private tokenService: TokenService,
-    private userService: UserService
-
+    private userService: UserService,
 
   ) {
     // Tạo FormGroup và các FormControl tương ứng
@@ -74,13 +74,28 @@ export class OrderComponent implements OnInit {
     const cart = this.cartService.getCart();
     const productIds = Array.from(cart.keys()); // Chuyển danh sách ID từ Map giỏ hàng
 
-    debugger
-    if (productIds.length === 0) {
-      return;
-    }
+
     // Goi service để lấy thông tin khách hàng
     debugger
     this.token = this.tokenService.getToken() ?? '';
+
+    this.userService.getTokenToDB(this.token).subscribe({
+      next: (reponse: any) => {
+        if (reponse !== null) {
+          return;
+        }
+      },
+      complete: () => {
+
+      },
+      error: (erorr: any) => {
+        alert('Tài khoản của bạn được đăng nhập từ nơi khác !!!');
+        this.userService.removeUserToLocalStorage();
+        this.tokenService.removeToken();
+        this.router.navigate(['/login']);
+      }
+    });
+
     this.userService.getUserDetails(this.token).subscribe({
       next: (response: any) => {
         debugger;
@@ -101,6 +116,10 @@ export class OrderComponent implements OnInit {
         alert(error)
       }
     });
+    debugger
+    if (productIds.length === 0) {
+      return;
+    }
     // Gọi service để lấy thông tin sản phẩm dựa trên danh sách ID
     debugger
     this.productService.getProductsByIds(productIds).subscribe({
@@ -214,3 +233,7 @@ export class OrderComponent implements OnInit {
   }
 
 }
+function ViewChild(AlertComponent: any): (target: OrderComponent, propertyKey: "alertComponent") => void {
+  throw new Error('Function not implemented.');
+}
+

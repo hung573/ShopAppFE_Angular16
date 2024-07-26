@@ -1,5 +1,7 @@
 import { Injectable } from "@angular/core";
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { UserService } from "./user.service";
+import { Observable, catchError, map, of } from "rxjs";
 
 
 @Injectable({
@@ -9,13 +11,15 @@ export class TokenService {
   private readonly TOKEN_KEY = 'access_token';
   private readonly USER_KEY = 'user';
   private jwtHelper = new JwtHelperService();
-  constructor() { }
+  private check: boolean = false;
+  constructor(private userService: UserService) { }
 
   // getter va setter
   getToken(): string | null {
     debugger
     return localStorage.getItem(this.TOKEN_KEY);
   }
+
   setToken(token: string): void {
     localStorage.setItem(this.TOKEN_KEY, token);
   }
@@ -30,6 +34,7 @@ export class TokenService {
   getUserId(): number {
     debugger;
     const token = this.getToken();
+
     if (!token) {
       return 0; // Token không tồn tại, trả về 0 hoặc giá trị mặc định phù hợp
     }
@@ -53,6 +58,4 @@ export class TokenService {
     }
     return this.jwtHelper.isTokenExpired(this.getToken()!);
   }
-
-
 }

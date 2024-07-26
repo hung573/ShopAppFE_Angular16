@@ -1,5 +1,8 @@
 import { NavigationEnd, Router } from '@angular/router';
 import { Component, OnInit, Renderer2 } from '@angular/core';
+import { TokenService } from '../service/token.service';
+import { UserService } from '../service/user.service';
+import { UserResponse } from '../reponses/user/user.response';
 
 @Component({
   selector: 'app-app',
@@ -10,9 +13,14 @@ export class AppComponent implements OnInit {
   showHeader: boolean = true;
   isUserPage: boolean = false;
   isAdminPage: boolean = false;
+  token: string = '';
+  userResponse?: UserResponse | null;
+
   constructor(
     private router: Router,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private userService: UserService,
+    private tokenService: TokenService
   ) { }
   ngOnInit(): void {
     debugger
@@ -30,7 +38,11 @@ export class AppComponent implements OnInit {
           this.renderer.setStyle(document.body, 'padding-top', '80px');
         }
       }
+
     });
+
+
+
   }
 
 }

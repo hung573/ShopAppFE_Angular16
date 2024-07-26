@@ -51,9 +51,10 @@ export class CartService {
     debugger
     if (this.cart.has(productId)) {
       // Nếu số lượng sản phẩm trong giỏ hàng lớn hơn 1, giảm số lượng đi 1
-      if (this.cart.get(productId)! > 1) {
+      if (this.cart.get(productId)! > 0) {
         this.cart.set(productId, this.cart.get(productId)! - 1);
       }
+
       // Sau khi thay đổi giỏ hàng, lưu trữ nó vào localStorage và cập nhật Subject
       this.saveCartToLocalStorage();
     }
@@ -62,7 +63,8 @@ export class CartService {
   checkQuantity(productId: number): boolean {
     if (this.cart.has(productId)) {
       // Nếu số lượng sản phẩm trong giỏ hàng lớn hơn 1, giảm số lượng đi 1
-      if (this.cart.get(productId)! == 1) {
+      if (this.cart.get(productId)! <= 0) {
+        this.cart.set(productId, this.cart.get(productId)! + 1);
         return true;
       }
     }

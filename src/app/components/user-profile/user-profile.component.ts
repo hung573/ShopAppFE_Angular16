@@ -40,7 +40,26 @@ export class UserProfileComponent implements OnInit {
   ngOnInit(): void {
     debugger;
     this.token = this.tokenService.getToken() ?? '';
-    this.userService.getUserDetails(this.token).subscribe({
+    this.userService.getTokenToDB(this.token).subscribe({
+      next: (reponse: any) => {
+        if (reponse !== null) {
+          return;
+        }
+      },
+      complete: () => {
+
+      },
+      error: (erorr: any) => {
+        alert("Tài khoản của bạn được đăng nhập từ nơi khác !!!");
+        this.userService.removeUserToLocalStorage();
+        this.tokenService.removeToken();
+        this.router.navigate(['/login']);
+      }
+    });
+    this.getUserDetails(this.token);
+  }
+  getUserDetails(token: string) {
+    this.userService.getUserDetails(token).subscribe({
       next: (response: any) => {
         debugger;
         const dateOfBirthISO = this.userService.convertToISODate(response.items.dateOfBirth, this.timeZone);
@@ -68,7 +87,6 @@ export class UserProfileComponent implements OnInit {
       }
     });
   }
-
   passwordMathValidator(): ValidatorFn {
     return (formGroup: AbstractControl): ValidationErrors | null => {
       debugger

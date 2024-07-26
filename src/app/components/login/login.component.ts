@@ -1,6 +1,6 @@
 import { HeaderComponent } from './../header/header.component';
 import { TokenService } from './../../service/token.service';
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../../service/user.service';
@@ -11,13 +11,14 @@ import { Role } from 'src/app/models/role';
 import { RoleService } from 'src/app/service/role.service';
 import { ObjectResponse } from 'src/app/reponses/user/object.response';
 import { UserResponse } from 'src/app/reponses/user/user.response';
+import { AlertComponent } from '../alert/alert.component';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   @ViewChild('loginrForm') loginrForm!: NgForm;
 
   phoneNumber: string = '';
@@ -40,22 +41,22 @@ export class LoginComponent {
     console.log(`phone Type: ${this.phoneNumber}`);
   }
 
-  // ngOnInit() {
-  //   // Gọi API lấy danh sách roles và lưu vào biến roles
-  //   debugger
-  //   this.roleService.getRoles().subscribe({
-  //     next: (roles: Role[]) => { // Sử dụng kiểu Role[]
-  //       debugger
-  //       this.roles = roles;
-  //       this.selectedRole = roles.length > 0 ? roles[1] : undefined;
-  //     },
-  //     error: (error: any) => {
-  //       debugger
-  //       alert(error);
-  //       console.error('Error getting roles:', error);
-  //     }
-  //   });
-  // }
+  ngOnInit() {
+    // Gọi API lấy danh sách roles và lưu vào biến roles
+    // debugger
+    // this.roleService.getRoles().subscribe({
+    //   next: (roles: Role[]) => { // Sử dụng kiểu Role[]
+    //     debugger
+    //     this.roles = roles;
+    //     this.selectedRole = roles.length > 0 ? roles[1] : undefined;
+    //   },
+    //   error: (error: any) => {
+    //     debugger
+    //     alert(error);
+    //     console.error('Error getting roles:', error);
+    //   }
+    // });
+  }
 
 
   login() {
