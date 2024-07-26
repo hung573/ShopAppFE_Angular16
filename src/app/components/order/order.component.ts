@@ -12,7 +12,6 @@ import { OrderService } from 'src/app/service/order.service';
 import { ProductService } from 'src/app/service/product.service';
 import { TokenService } from 'src/app/service/token.service';
 import { UserService } from 'src/app/service/user.service';
-import { AlertComponent } from '../alert/alert.component';
 
 @Component({
   selector: 'app-order',

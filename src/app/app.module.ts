@@ -18,7 +18,6 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { AppComponent } from './app/app.component';
 import { AdminModule } from './components/admin/admin.module';
 import { TokenService } from './service/token.service';
-import { AlertComponent } from './components/alert/alert.component';
 
 
 @NgModule({
@@ -33,7 +32,6 @@ import { AlertComponent } from './components/alert/alert.component';
     DetailProductComponent,
     AppComponent,
     UserProfileComponent,
-    AlertComponent,
     // AdminComponent,
     // OrderAdminComponent,
     // ProductAdminComponent,
@@ -68,6 +66,6 @@ import { AlertComponent } from './components/alert/alert.component';
 
   ]
 })
-export class AppModule{
+export class AppModule {
 
 }

@@ -11,7 +11,6 @@ import { Role } from 'src/app/models/role';
 import { RoleService } from 'src/app/service/role.service';
 import { ObjectResponse } from 'src/app/reponses/user/object.response';
 import { UserResponse } from 'src/app/reponses/user/user.response';
-import { AlertComponent } from '../alert/alert.component';
 
 @Component({
   selector: 'app-login',
