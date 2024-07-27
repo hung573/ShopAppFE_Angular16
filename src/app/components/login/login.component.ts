@@ -11,6 +11,7 @@ import { Role } from 'src/app/models/role';
 import { RoleService } from 'src/app/service/role.service';
 import { ObjectResponse } from 'src/app/reponses/user/object.response';
 import { UserResponse } from 'src/app/reponses/user/user.response';
+import { CartService } from 'src/app/service/cart.service';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,7 @@ export class LoginComponent implements OnInit {
 
   phoneNumber: string = '';
   password: string = '';
-  passwordFieldType: string = 'password';
+  passwordFieldType: boolean = false;
   roles: Role[] = []; // Mảng roles
   rememberMe: boolean = false;
   selectedRole: Role | undefined; // Biến để lưu giá trị được chọn từ dropdown
@@ -32,7 +33,9 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private userService: UserService,
     private tokenService: TokenService,
-    private roleService: RoleService) {
+    private roleService: RoleService,
+    private cartService: CartService
+  ) {
 
   }
 
@@ -102,6 +105,7 @@ export class LoginComponent implements OnInit {
             },
             complete: () => {
               debugger;
+              this.cartService.refreshCart();
             },
             error: (error: any) => {
               debugger;
@@ -121,8 +125,8 @@ export class LoginComponent implements OnInit {
       }
     })
   }
-  togglePasswordVisibility(): void {
-    this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
+  togglePasswordVisibility() {
+    this.passwordFieldType = !this.passwordFieldType;
   }
   checkRememberMe(): void {
     if (this.rememberMe) {

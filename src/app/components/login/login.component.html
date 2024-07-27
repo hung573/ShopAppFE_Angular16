@@ -22,14 +22,13 @@
             <label for="password">Mật khẩu</label>
             <div class="password-wrapper">
               <input type="password" placeholder="Ít nhất 6 ký tự"
-                [type]="passwordFieldType"
+                type="{{ passwordFieldType ? 'text' : 'password' }}"
                 class="form-control" id="password"
                 name="password"
                 required
                 [(ngModel)]="password">
-              <i class="password-toggle fas fa-eye-slash"
-                [class.fa-eye-slash]="passwordFieldType === 'password'"
-                [class.fa-eye]="passwordFieldType === 'text'"
+              <i class="password-toggle fas"
+                [ngClass]="passwordFieldType ?'fa-eye' : 'fa-eye-slash'"
                 (click)="togglePasswordVisibility()"></i>
             </div>
             <div class="divider-nospace"></div>

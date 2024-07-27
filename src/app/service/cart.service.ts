@@ -12,17 +12,25 @@ export class CartService {
   private cart: Map<number, number> = new Map(); // Dùng Map để lưu trữ giỏ hàng, key là id sản phẩm, value là số lượng
 
   constructor() {
+    this.refreshCart();
+  }
+
+  public refreshCart() {
     const storedCart = localStorage.getItem(this.getCartKey());
     if (storedCart) {
       this.cart = new Map(JSON.parse(storedCart));
+    } else {
+      this.cart = new Map<number, number>();
     }
   }
 
   //Lấy key Cart
   getCartKey(): string {
-    // return 'cart';
     const userResponseJSON = localStorage.getItem('user');
     const userResponse = JSON.parse(userResponseJSON!);
+    if (userResponse === null) {
+      return 'cart';
+    }
     debugger;
     return `cart: ${userResponse.id}`;
   }
@@ -89,7 +97,7 @@ export class CartService {
   clearCart(): void {
     this.cart.clear(); // Xóa toàn bộ dữ liệu trong giỏ hàng
     // this.saveCartToLocalStorage(); // Lưu giỏ hàng mới vào Local Storage (trống)
-    // localStorage.removeItem(this.getCartKey());
+    // localStorage.clear();
   }
 
   deleteItemCart(productId: number): void {

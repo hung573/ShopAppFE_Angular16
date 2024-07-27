@@ -26,7 +26,7 @@ export class UserService {
 
 
   register(registerDTO: RegisterDTO): Observable<any> {
-    return this.http.post(`${this.apiUrlUser}/regiser`, registerDTO, this.apiCongig);
+    return this.http.post(`${this.apiUrlUser}/resigter`, registerDTO, this.apiCongig);
   }
 
   login(loginDTO: LoginDTO): Observable<any> {

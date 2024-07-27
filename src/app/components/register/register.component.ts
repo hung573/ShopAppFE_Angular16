@@ -41,6 +41,7 @@ export class RegisterComponent {
   }
 
   register() {
+    debugger
     const registerDTO: RegisterDTO = {
       "fullname": this.fullName,
       "phone_number": this.phoneNumber,
